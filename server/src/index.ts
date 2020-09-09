@@ -1,10 +1,13 @@
 import express from 'express';
 import Routes from "./routes/routes";
-import Body_Parser from 'body-parser';
+import bodyParser from 'body-parser';
+import cookiesSession from 'cookie-session';
 
 const app = express();
-const PORT = process.env.PORT || 3000;
-app.use(Body_Parser.urlencoded({ extended: true }));
+const PORT = process.env.PORT || 5000;
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookiesSession({ keys: ['value']}))
 app.use(Routes);
 
 app.listen(PORT, () => {
