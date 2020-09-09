@@ -1,5 +1,9 @@
 import { Router, Request, Response } from 'express';
 
+interface IRequestBody extends Request{
+    body: { [key: string]: string | undefined };
+}
+
 const routes = Router();
 
 routes.get("/login", (req: Request, res: Response) => {
@@ -17,7 +21,13 @@ routes.get("/login", (req: Request, res: Response) => {
         </form>
     `)
 });
-routes.post("/login", (req: Request, res: Response) => {
-    
+routes.post("/login", (req: IRequestBody, res: Response) => {
+    const { email, password } = req.body;
+    if(email && password && email === 'hi@hi.com' && password === 'password') {
+        req.session = { loggedIn: true };
+        res.redirect("/");
+    } else {
+        res.send("You must provide an email");
+    }
 });
 export default routes;
